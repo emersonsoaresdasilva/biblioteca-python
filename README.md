@@ -35,6 +35,7 @@ O desafio é criar o backend para um sistema de gerenciamento de uma biblioteca!
 - Python. 🐍
 - Flask. 🌶️
 - Postman. 👨‍🚀
+- SQLite3. 🪶
 
 ### Executar servidor:
 <code>python -m venv venv</code> ⤵
@@ -43,7 +44,10 @@ O desafio é criar o backend para um sistema de gerenciamento de uma biblioteca!
 
 <code>pip install -r requirements.txt</code>
 
+<code>python .\biblioteca\sql.py</code>
+
 <code>python .\biblioteca\server.py</code> ✔
 
 ### Requisitos para utilizar o script:
-- [x] Ter o Python 3 instalado na máquina. ✔
+- [x] Ter o Python 3 instalado na máquina.
+- [x] Saber lidar com venv e instalar as dependencias a partir do requirements.txt

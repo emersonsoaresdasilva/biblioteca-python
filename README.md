@@ -37,7 +37,11 @@ O desafio é criar o backend para um sistema de gerenciamento de uma biblioteca!
 - Postman. 👨‍🚀
 
 ### Executar servidor:
-<code>python server.py</code>
+<code>python -m venv venv</code> ⤵
+
+<code>pip install -r requirements.txt</code>
+
+<code>python server.py</code> ✔
 
 ### Requisitos para utilizar o script:
 - [x] Ter o Python 3 instalado na máquina. ✔

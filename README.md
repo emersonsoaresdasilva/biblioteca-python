@@ -12,11 +12,10 @@ O desafio é criar o backend para um sistema de gerenciamento de uma biblioteca!
 
 ```json
 {
-  "id": 1,
   "titulo": "Harry Potter",
   "editora": "Rocco",
   "foto": "https://i.imgur.com/UH3IPXw.jpg",
-  "autores": ["JK Rowling", "..."]
+  "autores": "JK Rowling, ..."
 }
 ```
 - [ ] **POST**/upload-obras: <strong>Não implementei upload-obras pois ainda estou aprendendo sobre o assunto e quis abstrair essa parte.</strong>

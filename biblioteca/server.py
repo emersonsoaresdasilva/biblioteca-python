@@ -1,24 +1,8 @@
+import sql as db
 from datetime import datetime
 from flask import Flask, json, jsonify, request, make_response
 
 biblioteca = Flask(__name__)
-
-obras = [
-    {
-        "id": 1,
-        "titulo": "Como viver com 24 horas por Dia",
-        "editora": "Auster",
-        "foto": "",
-        "autores": ["Bennett, Arnold"]
-    },
-    {
-        "id": 2,
-        "titulo": "O Poder do Hábito",
-        "editora": "Objetiva",
-        "foto": "",
-        "autores": ["Charles Duhigg"]
-    }
-]
 
 @biblioteca.route('/')
 def inicio():
@@ -26,13 +10,8 @@ def inicio():
 
 @biblioteca.route('/obras', methods=['POST'])
 def cadastra_obra():
-    dicionario_retornado = request.json
-    if dicionario_retornado:
-        if dicionario_retornado in obras:
-            return jsonify({'status': 'obra já cadastrada'}), 400
-        obras.append(dicionario_retornado)
-        return jsonify({'status': 'obra cadastrada'}), 200
-    return jsonify({'status': 'erro, tente novamente'}), 404
+    db.cria_obra(request.json)
+    return jsonify({'status': 'obra cadastrada'}), 200
 
 @biblioteca.route('/upload-obras', methods=['POST'])
 def envia_csv():
@@ -40,47 +19,33 @@ def envia_csv():
 
 @biblioteca.route('/obras/', methods=['GET'])
 def exibe_obras():
-    return jsonify(obras) if obras else jsonify({'status': 'não há obras cadastradas'}), 404
+    return jsonify(db.mostra_obras()) if db.mostra_obras() else jsonify({'status': 'não há obras cadastradas'}), 404
 
 @biblioteca.route('/file-obras/', methods=['GET'])
 def obras_csv():
-    if obras:
-        dados = 'id;titulo;editora;foto;autores;data_criacao\n'
-        for obra in obras:
-            dados += f'{obra["id"]};'
-            dados += f'{obra["titulo"]};'
-            dados += f'{obra["editora"]};'
-            dados += f'{obra["foto"]};'
-            dados += f'{obra["autores"]};'
-            dados += f'{datetime.now().strftime("%d/%m/%Y")}\n'
-        csv = make_response(dados)
-        csv.headers['Content-Disposition'] = 'attachment; filename=obras.csv'
-        csv.mimetype='text/csv'
-        return csv
-    return jsonify({'status': 'não há obras cadastradas'}), 404
+    dados = 'id;titulo;editora;foto;autores;data_criacao\n'
+    for obra in db.mostra_obras():
+        dados += f'{obra["id"]};'
+        dados += f'{obra["titulo"]};'
+        dados += f'{obra["editora"]};'
+        dados += f'{obra["foto"]};'
+        dados += f'{obra["autores"]};'
+        dados += f'{datetime.now().strftime("%d/%m/%Y")}\n'
+    csv = make_response(dados)
+    csv.headers['Content-Disposition'] = 'attachment; filename=obras.csv'
+    csv.mimetype='text/csv'
+    return csv            
 
 @biblioteca.route('/obras/<int:id>', methods=['PUT'])
 def atualiza_obra(id):
-    obra_atualizada = request.json
-    if obra_atualizada:
-        for obra in obras:
-            if obra['id'] == id:
-                indice = obras.index(obra)
-                obras.remove(obra)
-                obras.insert(indice, obra_atualizada)
-                return jsonify({'status': 'obra atualizada'}), 200
-            return jsonify({'status': 'obra não localizada'}), 404
-    return jsonify({'status': 'não há obras cadastradas'}), 404
+    db.atualizada_obra(request.json, id)
+    return jsonify({'status': 'obra atualizada'}), 200
 
 @biblioteca.route('/obras/<int:id>', methods=['DELETE'])
-def remove_obra(id):
-    if obras:
-        for obra in obras:
-            if obra['id'] == id:
-                obras.remove(obra)
-                return jsonify({'status': 'obra removida'}), 200
-        return jsonify({'status': 'obra não localizada'}), 404
-    return jsonify({'status': 'não há obras cadastradas'}), 404
+def remove_obra(id): 
+    db.remove_obra(id)
+    return jsonify({'status': 'obra removida'}), 200
 
-if __name__ == '__main__':     
-   biblioteca.run(host = 'localhost', port = 5003, debug=True)
+if __name__ == '__main__':
+    db.reseta_obras()
+    biblioteca.run(host = 'localhost', port = 5003, debug=True)

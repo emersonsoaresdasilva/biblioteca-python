@@ -12,11 +12,10 @@ O desafio é criar o backend para um sistema de gerenciamento de uma biblioteca!
 
 ```json
 {
-  "id": 1,
   "titulo": "Harry Potter",
   "editora": "Rocco",
   "foto": "https://i.imgur.com/UH3IPXw.jpg",
-  "autores": ["JK Rowling", "..."]
+  "autores": "JK Rowling, ..."
 }
 ```
 - [ ] **POST**/upload-obras: <strong>Não implementei upload-obras pois ainda estou aprendendo sobre o assunto e quis abstrair essa parte.</strong>
@@ -35,6 +34,7 @@ O desafio é criar o backend para um sistema de gerenciamento de uma biblioteca!
 - Python. 🐍
 - Flask. 🌶️
 - Postman. 👨‍🚀
+- SQLite3. 🪶
 
 ### Executar servidor:
 <code>python -m venv venv</code> ⤵
@@ -43,7 +43,10 @@ O desafio é criar o backend para um sistema de gerenciamento de uma biblioteca!
 
 <code>pip install -r requirements.txt</code>
 
+<code>python .\biblioteca\sql.py</code>
+
 <code>python .\biblioteca\server.py</code> ✔
 
 ### Requisitos para utilizar o script:
-- [x] Ter o Python 3 instalado na máquina. ✔
+- [x] Ter o Python 3 instalado na máquina.
+- [x] Saber lidar com venv e instalar as dependencias a partir do requirements.txt
